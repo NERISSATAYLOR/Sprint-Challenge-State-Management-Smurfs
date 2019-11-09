@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import SmurfList from './SmurfList';
 
 const SmurfForm = props => {
     const [addSmurf, setAddSmurf] = useState({
@@ -8,7 +8,7 @@ const SmurfForm = props => {
         height: ''
     })
 
-    const [smurf, setSmurf] = useState([];)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         props.addSmurf(addSmurf)
@@ -17,14 +17,14 @@ const SmurfForm = props => {
 
 
 
-    updateSmurf = () => {
-        const { name, age, height } = this.state
-        this.props.addNewSmurf(newSmurf)
+    function updateSmurf(addSmurf) {
+        const { name, age, height } = this.state;
+        this.props.addSmurf(addSmurf)
+
+
+
 
     }
-
-
-
     // console.log('state',this.state)
     return (
         <div>
@@ -54,8 +54,6 @@ const SmurfForm = props => {
                 <button onClick={updateSmurf}>Update Smurf</button>
             </form>
         </div>
-
-
     )
 }
-}
+export default Form;
