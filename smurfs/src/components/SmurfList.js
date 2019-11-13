@@ -1,37 +1,38 @@
-import React, { useContext, useEffect } from 'react';
-
+import React from 'react';
+import { connect } from 'react-redux'
+import { getSmurf } from '../actions/actions';
 
 
 
 const SmurfList = props => {
-    const context = useContext(SmurfContext);
-    useEffect(() => {
-        axios.get('http://localhost:3333/smurfs')
-            .then(res => {
-                console.log(res.data)
-                    .catch(err => {
-
-                    });
-                // run action creator when the component mounts
-                console.log(context);
-            }, []);
-
-        if (isFetching) {
-            return <h2>Fetching smurf for ya!</h2>;
-        }
-
-        return (
-            <div>
-                <h2>Papa Smurf is calling you!: </h2>
-                {smurfs.map(smurf => (
-                    <div key={smurf.id}>
-                        <p>Name: {smurf.name}</p>
-                        <p>Age:{smurf.age}</p>
-                        <p>Height: {smurf.height}</p>
-
-                    </div>
-                ))}
-            </div>
-        );
+    const fetchSmurf = e => {
+        e.preventDefault();
+        props.getSmurf();
     };
-    export default SmurfList;
+    return (
+        <>
+            <h2>Welcome to SmurfLand!</h2>
+            <div>
+                {props.smurfs && props.smurfs.map(smurf => (
+                    <div key={smurf.id}>
+                        <h4>{smurf.name}</h4>
+                        <p>{smurf.age}</p>
+                        <p>{smurf.height}</p>
+                    </div>
+                )
+                )}
+            </div>
+            <div>
+                {props.error && <p className="error">{props.error}</p>}
+                <button onClick={fetchSmurf}>Fetch Smurf!</button>
+            </div>
+        </>
+    );
+};
+const mapStateToProps = state => ({
+    smurf: state.smurf,
+    error: state.error
+});
+export default connect(
+    mapStateToProps, { getSmurf })(SmurfList);
+

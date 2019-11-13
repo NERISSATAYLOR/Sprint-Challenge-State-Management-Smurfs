@@ -1,59 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SmurfList from './SmurfList';
+import axios from 'axios';
 
 const SmurfForm = props => {
-    const [addSmurf, setAddSmurf] = useState({
+    const initialCard = {
+
+        id: Date.now(),
         name: '',
         age: 0,
         height: ''
-    })
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        props.addSmurf(addSmurf)
-        setAddSmurf('');
     }
+    const [smurf, setSmurf] = useState(initialCard);
+
+    const handleChange = event => {
+        setSmurf({ ...smurf, [event.target.name]: event.target.value });
+    };
+
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        console.log(smurf);
+        if (!smurf.name || !smurf.SmurfName) return
+        props.addSmurf(smurf);
+        setSmurf(initialCard)
+
+    };
 
 
 
-    function updateSmurf(addSmurf) {
-        const { name, age, height } = this.state;
-        this.props.addSmurf(addSmurf)
-
-
-
-
-    }
     // console.log('state',this.state)
     return (
-        <div>
+        <div className="form">
             <form onSubmit={handleSubmit}>
 
                 <input
                     className="name-input"
                     type="text"
                     name="name"
-                    value={name}
-                    onChange={(e) => setAddSmurf(e.target.value)}
+                    value={props.name}
+                    onChange={handleChange}
                 />
                 <input
                     className="age-input"
                     type="number"
                     name="age"
-                    value={age}
-                    onChange={(e) => setAddSmurf(e.target.value)}
+                    value={props.age}
+                    onChange={handleChange}
                 />
                 <input
                     className="height-input"
                     type="text"
                     name="height"
-                    value={height}
-                    onChange={(e) => setAddSmurf(e.target.value)}
+                    value={props.height}
+                    onChange={handleChange}
                 />
-                <button onClick={updateSmurf}>Update Smurf</button>
+                <button>Add Smurf</button>
             </form>
         </div>
     )
 }
-export default Form;
+export default SmurfForm;
