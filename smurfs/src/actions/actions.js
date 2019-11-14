@@ -24,3 +24,13 @@ export const addSmurf = smurf => dispatch => {
         })
     );
 }
+
+export function loadSmurf() {
+    return (dispatch) => {
+        return axios.get("http://localhost:3333/smurfs")
+            .then(response => {
+                dispatch(loadSmurf(response.data))
+            })
+    }
+
+}
